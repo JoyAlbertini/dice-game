@@ -27,7 +27,7 @@ class GameStateMachine:
         self._gameProperties.swap_next_player()
         ##  check if the game is over
         if not self._gameProperties.get_current_player().get_score < self._gameProperties.winning_value:
-            self._interface.print_winner()
+            self._interface.print_winner(self._gameProperties.get_player_with_max_score())
             return
 
         self._interface.print_current_player()
@@ -43,6 +43,7 @@ class GameStateMachine:
     def same_player_round_eval(self, continuous_score):
 
         def evaluate_round_over() -> bool:
+            # sorting wil always give the maximum score
             return compute_score(sorted(roll_set)) == 0
 
         def is_player_on_the_board(current_score : int):
@@ -73,9 +74,7 @@ class GameStateMachine:
             total_score = continuous_score + c_score
             print_reach_boarding_score(total_score)
             self._interface.print_round_scores(c_score, total_score)
-
             self._gameProperties.reduce_dices(len(verified_choices))
-
 
             dices_are_zero = self._gameProperties.are_no_dices_left()
             if not dices_are_zero and is_player_on_the_board(total_score):
@@ -113,7 +112,7 @@ def test2():
     GameStateMachineDebug([PlayerDebug("Joy", 10000), Player("Paolo")], 10000)
 
 def test3():
-    GameStateMachineDebug([PlayerDebug("Joy", 3000), Player("Paolo"), PlayerDebug("Marzio", 4000)], 10000)
+    GameStateMachineDebug([PlayerDebug("Joy", 10000), PlayerDebug("Paolo", 12000)], 10000)
 
 if __name__ == "__main__":
-    GameStateMachine()
+    test3()

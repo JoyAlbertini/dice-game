@@ -23,13 +23,15 @@ class GameInterface:
         print(DiceSet.set_of_dices_to_str(rolls))
 
     def print_current_player(self):
-        print("Current player: ", self.get_current_player_str())
+        print("Current player: ", GameInterface.extract_player_name(self.__gValues.get_current_player()))
 
-    def print_winner(self):
-        print(f"Player {self.__gValues.get_current_player().get_name} won!")
+    @staticmethod
+    def print_winner(player : Player):
+        print(f"Player {GameInterface.extract_player_name(player)} won!")
 
-    def get_current_player_str(self) -> str:
-        return self.__gValues.get_current_player().get_name
+    @staticmethod
+    def extract_player_name(player) -> str:
+        return player.get_name
 
     @staticmethod
     def print_reset_pot_and_dices():

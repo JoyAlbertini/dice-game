@@ -1,5 +1,6 @@
 import random
 from DiceSet import DiceSet
+from Player import PlayerDebug
 from Pot import Pot
 
 
@@ -25,6 +26,11 @@ class GameValues:
 
     def is_player_on_the_board(self):
         return self.get_current_player().get_score >= self.board_size
+
+    def get_player_with_max_score(self):
+        if self.players is None:
+            return None
+        return max(self.players, key=lambda x: x.get_score)
 
     ## dice set
 
@@ -60,3 +66,7 @@ class GameValues:
         return self.__pot.get
 
 
+if __name__ == "__main__":
+    g = GameValues()
+    g.players = [PlayerDebug("a", 10000), PlayerDebug("b", 12000)]
+    assert g.get_player_with_max_score().get_name == "b"

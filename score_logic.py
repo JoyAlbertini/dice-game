@@ -19,6 +19,8 @@ def check_match_with_the_rolled_set(rolled_set: list[int], choices: list[int]) -
 
     return all(rolled_counter[num] >= count for num, count in choices_counter.items())
 
+
+
 def compute_score_and_count(verified_choice: list[int]) -> Tuple[int, int]:
     if len(verified_choice) == 6:
         counts = Counter(verified_choice)
@@ -141,6 +143,7 @@ if __name__  == "__main__":
     assert compute_score([1, 1, 2, 2, 3, 1]) == 300
     assert compute_score([2,2,5]) == 50 # round over check
 
+
     ## 3 pairs test
     assert compute_score([2,2,3,3,4,4]) == 1000
     assert compute_score([1, 1, 3, 3, 4, 4]) == 1000
@@ -154,6 +157,10 @@ if __name__  == "__main__":
     assert nr_of_scoring_dices([1, 2, 5]) == 2
     assert nr_of_scoring_dices([1, 2, 3, 4, 5, 6]) == 6
     assert nr_of_scoring_dices([5,5,5]) == 3
+    # no scoring dices
+    assert nr_of_scoring_dices([2,2,3]) == 0
+    assert nr_of_scoring_dices([2,3,1]) == 1
+
 
     assert check_match_with_the_rolled_set([6, 5, 3, 5, 5], [5, 5, 5]) == True
     assert check_match_with_the_rolled_set([6, 5, 3, 5, 5], [5, 2, 5]) == False
