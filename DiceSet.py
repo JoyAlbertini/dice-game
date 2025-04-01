@@ -16,9 +16,6 @@ class DiceSet:
     def reset_dices(self):
         self.__dices = DiceSet.NR_OF_DICES
 
-    def are_dices_available(self) -> bool:
-        return self.__dices > 0
-
     # functional style
     @staticmethod
     def get_dice_roll() -> int:

@@ -1,5 +1,5 @@
 from DiceSet import DiceSet
-from GameProperties import GameProperties
+from GameValues import GameValues
 from Player import Player
 from score_logic import parse_player_choices_input, \
     match_the_number_of_scoring_dices, check_match_with_the_rolled_set
@@ -7,15 +7,15 @@ from score_logic import parse_player_choices_input, \
 
 class GameInterface:
 
-    def __init__(self, game_properties : GameProperties):
-       self.gProperties = game_properties
+    def __init__(self, game_properties : GameValues):
+       self.__gValues = game_properties
 
     def print_game_status(self):
         print(f"\n----------------------------------------------------------\n" +
-              f"Current pot value is {self.gProperties.pot.get}. \n" +
-                f"Current number of dices is {self.gProperties.get_number_of_dices()}. \n" +
-                f"Players scores are: " + (", ".join(f"player {player.get_name} : {player.get_score}" for player in self.gProperties.players)) + "\n"
-             + f"-----------------------------------------------------------\n")
+              f"Current pot value is {self.__gValues.get_pot()}. \n" +
+                f"Current number of dices is {self.__gValues.get_number_of_dices()}. \n" +
+                f"Players scores are: " + (", ".join(f"player {player.get_name} : {player.get_score}" for player in self.__gValues.players)) + "\n"
+              + f"-----------------------------------------------------------\n")
 
 
     @staticmethod
@@ -26,15 +26,31 @@ class GameInterface:
         print("Current player: ", self.get_current_player_str())
 
     def print_winner(self):
-        print(f"Player {self.gProperties.get_current_player().get_name} won!")
+        print(f"Player {self.__gValues.get_current_player().get_name} won!")
 
     def get_current_player_str(self) -> str:
-        return self.gProperties.get_current_player().get_name
+        return self.__gValues.get_current_player().get_name
 
+    @staticmethod
+    def print_reset_pot_and_dices():
+        print("--Do you want to reset the pot and your number of dices? [y/n]--")
 
     @staticmethod
     def print_continue_or_stop():
         print("--Do you want to roll the dices? [y/n]?--")
+
+    @staticmethod
+    def print_round_over():
+        print("--Round is over--")
+
+    @staticmethod
+    def print_choose_the_dices():
+        print("--Choose the dices you want to keep:--")
+
+    @staticmethod
+    def print_round_scores(c_score :int, total_score : int):
+        print(f"Current score is {c_score}, total score is {total_score}")
+    ## Sub routines
 
     @staticmethod
     def ask_for_correct_input(rolled_set : list[int]) -> list[int]:
@@ -49,6 +65,7 @@ class GameInterface:
                 return choices
             else:
                 print("Invalid input. Please try again")
+
 
     @staticmethod
     def ask_for_y_n() -> bool:
