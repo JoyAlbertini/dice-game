@@ -10,7 +10,7 @@ class GameStateMachine:
         self._gameProperties = GameValues()
         self._interface = GameInterface(self._gameProperties)
         self._gameProperties.winning_value = self._interface.ask_for_value("winning value")
-        self._gameProperties.board_size = self._interface.ask_for_value("board size")
+        self._gameProperties.board_size = self._interface.ask_for_value("board size", self._gameProperties.winning_value)
         self._gameProperties.players = self._interface.ask_for_players()
         self.start_game()
 
