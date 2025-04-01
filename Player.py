@@ -16,3 +16,19 @@ class Player:
         return self.__name
 
 
+
+
+class PlayerDebug(Player):
+
+    def __init__(self, name: str, score: int):
+        super().__init__(name)
+        self.__settable_score = score
+
+    def increase_score(self, amount: int):
+        self.__settable_score += amount
+
+    @property
+    def get_score(self) -> int:
+        return self.__settable_score
+
+

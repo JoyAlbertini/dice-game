@@ -1,6 +1,6 @@
 from GameInterface import GameInterface
 from GameValues import GameValues
-from Player import Player
+from Player import Player, PlayerDebug
 from score_logic import compute_score
 
 
@@ -98,6 +98,17 @@ class GameStateMachineDebug(GameStateMachine):
 
 
 
+
+
+
+def test1():
+    GameStateMachineDebug([Player("Joy"), Player("Paolo")], 1000)
+
+def test2():
+    GameStateMachineDebug([PlayerDebug("Joy", 10000), Player("Paolo")], 10000)
+
+def test3():
+    GameStateMachineDebug([PlayerDebug("Joy", 3000), Player("Paolo"), PlayerDebug("Marzio", 4000)], 10000)
+
 if __name__ == "__main__":
-    #GameStateMachine()
-    GameStateMachineDebug([Player("Joy"),Player("Paolo")], 1000)
+    GameStateMachine()
