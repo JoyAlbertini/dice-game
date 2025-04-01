@@ -40,8 +40,8 @@ class GameProperties:
     def update_player_score(self, score):
         self.get_current_player().increase_score(score)
 
-    def update_pot(self, score):
-        self.pot.add(score)
+    def set_pot(self, score):
+        self.pot.set_pot(score)
 
     def reset_pot(self):
         self.pot.reset()
