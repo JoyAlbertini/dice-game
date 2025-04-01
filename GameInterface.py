@@ -76,13 +76,13 @@ class GameInterface:
         return True if p_continue == "y" else False
 
     @staticmethod
-    def ask_for_winning_value():
+    def ask_for_value(value_name : str) -> int:
         while True:
             try:
-                print("--Please enter the winning value: --")
+                print(f"--Please enter the {value_name}: --")
                 value = int(input().strip())
                 if value == 0:
-                    print("--Error: Winning value cannot be zero--")
+                    print(f"--Error: {value_name} cannot be zero--")
                 else:
                     return value
             except ValueError:

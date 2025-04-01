@@ -10,6 +10,7 @@ class GameValues:
         self.__pot = Pot()
         self.__diceSet = DiceSet()
         self.players = None
+        self.board_size = 0
 
     ## player
 
@@ -21,6 +22,9 @@ class GameValues:
 
     def get_current_player(self):
         return self.players[self.__current_player_idx]
+
+    def is_player_on_the_board(self):
+        return self.get_current_player().get_score >= self.board_size
 
     ## dice set
 

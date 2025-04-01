@@ -39,8 +39,12 @@ def check_match_with_the_rolled_set(rolled_set: list[int], choices: list[int]) -
     return all(rolled_counter[num] >= count for num, count in choices_counter.items())
 
 
-
 def compute_score(verified_choice: list[int]) -> int:
+    if len(verified_choice) == 6:
+        counts = Counter(verified_choice)
+        if len(counts) == 3 and all(count == 2 for count in counts.values()):
+            return 1000
+
     match verified_choice:
         case [1, 2, 3, 4, 5, 6]:
             return 1000
@@ -206,6 +210,13 @@ if __name__  == "__main__":
     assert compute_score([6, 2, 5, 4, 1, 4,]) == 150
     assert compute_score([1, 1, 2, 2, 3, 1]) == 300
     assert compute_score([2,2,5]) == 50 # round over check
+
+    ## 3 pairs test
+    assert compute_score([2,2,3,3,4,4]) == 1000
+    assert compute_score([1, 1, 3, 3, 4, 4]) == 1000
+    assert compute_score([1, 1, 5, 5, 4, 4]) == 1000
+    assert compute_score([2, 2, 3, 3, 4, 6]) == 0
+    assert compute_score([6,6,3,3,4,4]) == 1000
 
     # input verification
     assert nr_of_scoring_dices([2, 2, 5]) == 1

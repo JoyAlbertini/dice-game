@@ -9,7 +9,8 @@ class GameStateMachine:
     def __init__(self):
         self._gameProperties = GameValues()
         self._interface = GameInterface(self._gameProperties)
-        self._gameProperties.winning_value = self._interface.ask_for_winning_value()
+        self._gameProperties.winning_value = self._interface.ask_for_value("winning value")
+        self._gameProperties.board_size = self._interface.ask_for_value("board size")
         self._gameProperties.players = self._interface.ask_for_players()
         self.start_game()
 
@@ -44,6 +45,9 @@ class GameStateMachine:
         def evaluate_round_over() -> bool:
             return compute_score(sorted(roll_set)) == 0
 
+        def is_player_on_the_board(current_score : int):
+            return self._gameProperties.is_player_on_the_board() or current_score >= self._gameProperties.board_size
+
         if self._gameProperties.are_no_dices_left():
             self._gameProperties.reset_dices()
 
@@ -69,10 +73,11 @@ class GameStateMachine:
 
 
             dices_are_zero = self._gameProperties.are_no_dices_left()
-            if not dices_are_zero:
+            if not dices_are_zero and is_player_on_the_board(total_score):
                 self._interface.print_continue_or_stop()
 
-            p_continue = True if dices_are_zero else self._interface.ask_for_y_n()
+            p_continue = True if dices_are_zero or not is_player_on_the_board(total_score) \
+                else self._interface.ask_for_y_n()
 
             if not p_continue:
                 self._gameProperties.update_player_score(total_score)
@@ -88,6 +93,7 @@ class GameStateMachineDebug(GameStateMachine):
         self._interface = GameInterface(self._gameProperties)
         self._gameProperties.players = players
         self._gameProperties.winning_value = winning_value
+        self._gameProperties.board_size = 800
         self.start_game()
 
 
