@@ -1,13 +1,17 @@
 
 class Player:
-    def __init__(self, name: str, score: int):
+    def __init__(self, name: str):
         self.__name = name
-        self.score = score
+        self.__score = 0
 
     def increase_score(self, amount: int):
-        self.score += amount
+        self.__score += amount
 
     @property
-    def name(self):
-        return self.name
+    def get_score(self) -> int:
+        return self.__score
+
+    @property
+    def get_name(self):
+        return self.get_name
 

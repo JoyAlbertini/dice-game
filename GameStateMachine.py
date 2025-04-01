@@ -6,9 +6,14 @@ from score_logic import compute_score
 
 class GameStateMachine:
 
-    def __init__(self, players : list[Player], winning_value : int):
-        self.gameProperties = GameProperties(players, winning_value)
+    def __init__(self):
+        self.gameProperties = GameProperties()
         self.interface = GameInterface(self.gameProperties)
+        self.gameProperties.winning_value = self.interface.ask_for_winning_value()
+        self.gameProperties.players = self.interface.ask_for_players()
+        self.start_game()
+
+
 
     def start_game(self):
         self.gameProperties.choose_first_player()
@@ -61,3 +66,6 @@ class GameStateMachine:
                 self.switch_player()
             else:
                 self.same_player_round_eval()
+
+if __name__ == "__main__":
+    GameStateMachine()

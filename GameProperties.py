@@ -9,15 +9,12 @@ from Pot import Pot
 
 
 class GameProperties:
-    def __init__(self, players : list[Player], winning_value : int):
+    def __init__(self):
+        self.winning_value = None
         self.current_player_idx = 0
-        self.players = players
         self.pot = Pot()
-        self.winning_value = winning_value
         self.__diceSet = DiceSet()
-
-
-
+        self.players = None
 
     def choose_first_player(self):
         self.current_player_idx = random.randint(0, len(self.players) - 1)

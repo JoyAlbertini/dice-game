@@ -1,5 +1,6 @@
 from DiceSet import DiceSet
 from GameProperties import GameProperties
+from Player import Player
 from score_logic import parse_player_choices_input, check_if_valid_choice, compute_score
 
 
@@ -12,7 +13,7 @@ class GameInterface:
         print(f"Current pot value is {self.gProperties.pot.get}. \n" +
                 f"Current number of dices is {self.gProperties.get_number_of_dices()}. \n" +
                 f"Players scores are: \n" +
-                ", ".join(f"Player {player.name} score is {player.score}" for player in self.gProperties.players))
+                ", ".join(f"Player {player.get_name} score is {player.get_score}" for player in self.gProperties.players))
 
     @staticmethod
     def print_set_of_rolls(rolls):
@@ -22,10 +23,10 @@ class GameInterface:
         print("Current player: ", self.get_current_player_str())
 
     def print_winner(self):
-        print(f"Player {self.gProperties.get_current_player().name} won!")
+        print(f"Player {self.gProperties.get_current_player().get_name} won!")
 
     def get_current_player_str(self) -> str:
-        return self.gProperties.get_current_player().name
+        return self.gProperties.get_current_player().get_name
 
 
     @staticmethod
@@ -52,12 +53,31 @@ class GameInterface:
             return GameInterface.ask_for_y_n()
         return p_continue
 
+    @staticmethod
+    def ask_for_winning_value():
+        while True:
+            try:
+                print("Please enter the winning value: ")
+                value = int(input().strip())
+                if value == 0:
+                    print("Error: Winning value cannot be zero.")
+                else:
+                    return value
+            except ValueError:
+                print("Invalid input. Please enter a valid integer.")
 
-
-
-
-
-
+    @staticmethod
+    def ask_for_players() -> list[Player]:
+        players = []
+        while True:
+            print("Please enter the name of the player: ")
+            name = input().strip()
+            players.append(Player(name))
+            if len(players) != 1:
+                print("Do you want to add another player? [y/n]")
+                if GameInterface.ask_for_y_n() == "n":
+                    break
+        return players
 
 
 
