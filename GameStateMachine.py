@@ -48,6 +48,10 @@ class GameStateMachine:
         def is_player_on_the_board(current_score : int):
             return self._gameProperties.is_player_on_the_board() or current_score >= self._gameProperties.board_size
 
+        def print_reach_boarding_score(current_score : int):
+            if current_score >= self._gameProperties.board_size and not self._gameProperties.is_player_on_the_board():
+                self._interface.print_reach_boarding_score()
+
         if self._gameProperties.are_no_dices_left():
             self._gameProperties.reset_dices()
 
@@ -67,6 +71,7 @@ class GameStateMachine:
             verified_choices = self._interface.ask_for_correct_input(roll_set)
             c_score = compute_score(verified_choices)
             total_score = continuous_score + c_score
+            print_reach_boarding_score(total_score)
             self._interface.print_round_scores(c_score, total_score)
 
             self._gameProperties.reduce_dices(len(verified_choices))

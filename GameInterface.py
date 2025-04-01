@@ -50,6 +50,11 @@ class GameInterface:
     @staticmethod
     def print_round_scores(c_score :int, total_score : int):
         print(f"Current score is {c_score}, total score is {total_score}")
+
+    @staticmethod
+    def print_reach_boarding_score():
+        print("--You have reached the boarding score--")
+
     ## Sub routines
 
     @staticmethod
