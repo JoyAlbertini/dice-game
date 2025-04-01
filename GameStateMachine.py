@@ -115,4 +115,4 @@ def test3():
     GameStateMachineDebug([PlayerDebug("Joy", 10000), PlayerDebug("Paolo", 12000)], 10000)
 
 if __name__ == "__main__":
-    test3()
+    GameStateMachine()
