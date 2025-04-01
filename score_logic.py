@@ -1,24 +1,5 @@
-#1- 100 points
-#5- 50 points
-#Three of a kind of 1 – 1000 points
-#Three of a kind of 2 – 200 points
-#Three of a kind of 3 – 300 points
-#Three of a kind of 4 – 400 points
-#Three of a kind of 5 – 500 points
-#Three of a kind of 6 – 600 points
-#For each number over three of a kind you double the amount (example 3 2’s
-#=200, 4 2’s =400, 5 2’s =800, 6 2’s=1,600).
-#Pairs and Straights.
-# - When a player rolls 1,2,3,4,5,6 when rolling all 6 dice this is a Straight.
-# - When a player gets 3 sets of pairs when rolling 6 dice this is Pairs.
-# - Pairs and Straights are worth 1000 points
-
-
-import random
-from typing import Any
-
-
 from collections import Counter
+from typing import Tuple
 
 
 # in functional style each function should be pure and should not have any side effects,
@@ -38,164 +19,113 @@ def check_match_with_the_rolled_set(rolled_set: list[int], choices: list[int]) -
 
     return all(rolled_counter[num] >= count for num, count in choices_counter.items())
 
-
-def compute_score(verified_choice: list[int]) -> int:
+def compute_score_and_count(verified_choice: list[int]) -> Tuple[int, int]:
     if len(verified_choice) == 6:
         counts = Counter(verified_choice)
         if len(counts) == 3 and all(count == 2 for count in counts.values()):
-            return 1000
+            return 1000, 6
 
     match verified_choice:
         case [1, 2, 3, 4, 5, 6]:
-            return 1000
+            return 1000, 6
 
     match verified_choice:
         case [1, 1, 1, 1, 1, 1]:
-            return 8000
+            return 8000, 6
         case [1, 1, 1, 1, 1, *rest]:
-            return 4000 + compute_score(rest)
+            score, count = compute_score_and_count(rest)
+            return 4000 + score, 5 + count
         case [1, 1, 1, 1, *rest]:
-            return 2000 + compute_score(rest)
+            score, count = compute_score_and_count(rest)
+            return 2000 + score, 4 + count
         case [1, 1, 1, *rest]:
-            return 1000 + compute_score(rest)
+            score, count = compute_score_and_count(rest)
+            return 1000 + score, 3 + count
         case [1, *rest]:
-            return 100 + compute_score(rest)
+            score, count = compute_score_and_count(rest)
+            return 100 + score, 1 + count
 
     match verified_choice:
         case [2, 2, 2, 2, 2, 2]:
-            return 1600
+            return 1600, 6
         case [2, 2, 2, 2, 2, *rest]:
-            return 800 + compute_score(rest)
+            score, count = compute_score_and_count(rest)
+            return 800 + score, 5 + count
         case [2, 2, 2, 2, *rest]:
-            return 400 + compute_score(rest)
+            score, count = compute_score_and_count(rest)
+            return 400 + score, 4 + count
         case [2, 2, 2, *rest]:
-            return 200 + compute_score(rest)
+            score, count = compute_score_and_count(rest)
+            return 200 + score, 3 + count
 
     match verified_choice:
         case [3, 3, 3, 3, 3, 3]:
-            return 2400
+            return 2400, 6
         case [3, 3, 3, 3, 3, *rest]:
-            return 1200 + compute_score(rest)
+            score, count = compute_score_and_count(rest)
+            return 1200 + score, 5 + count
         case [3, 3, 3, 3, *rest]:
-            return 600 + compute_score(rest)
+            score, count = compute_score_and_count(rest)
+            return 600 + score, 4 + count
         case [3, 3, 3, *rest]:
-            return 300 + compute_score(rest)
+            score, count = compute_score_and_count(rest)
+            return 300 + score, 3 + count
 
     match verified_choice:
         case [4, 4, 4, 4, 4, 4]:
-            return 3200
+            return 3200, 6
         case [4, 4, 4, 4, 4, *rest]:
-            return 1600 + compute_score(rest)
+            score, count = compute_score_and_count(rest)
+            return 1600 + score, 5 + count
         case [4, 4, 4, 4, *rest]:
-            return 800 + compute_score(rest)
+            score, count = compute_score_and_count(rest)
+            return 800 + score, 4 + count
         case [4, 4, 4, *rest]:
-            return 400 + compute_score(rest)
+            score, count = compute_score_and_count(rest)
+            return 400 + score, 3 + count
 
     match verified_choice:
         case [5, 5, 5, 5, 5, 5]:
-            return 4000
+            return 4000, 6
         case [5, 5, 5, 5, 5, *rest]:
-            return 2000 + compute_score(rest)
+            score, count = compute_score_and_count(rest)
+            return 2000 + score, 5 + count
         case [5, 5, 5, 5, *rest]:
-            return 1000 + compute_score(rest)
+            score, count = compute_score_and_count(rest)
+            return 1000 + score, 4 + count
         case [5, 5, 5, *rest]:
-            return 500 + compute_score(rest)
+            score, count = compute_score_and_count(rest)
+            return 500 + score, 3 + count
         case [5, *rest]:
-            return 50 + compute_score(rest)
+            score, count = compute_score_and_count(rest)
+            return 50 + score, 1 + count
 
     match verified_choice:
         case [6, 6, 6, 6, 6, 6]:
-            return 4800
+            return 4800, 6
         case [6, 6, 6, 6, 6, *rest]:
-            return 2400 + compute_score(rest)
+            score, count = compute_score_and_count(rest)
+            return 2400 + score, 5 + count
         case [6, 6, 6, 6, *rest]:
-            return 1200 + compute_score(rest)
+            score, count = compute_score_and_count(rest)
+            return 1200 + score, 4 + count
         case [6, 6, 6, *rest]:
-            return 600 + compute_score(rest)
+            score, count = compute_score_and_count(rest)
+            return 600 + score, 3 + count
 
     if verified_choice:
-        return compute_score(verified_choice[1:])
+        return compute_score_and_count(verified_choice[1:])
     else:
-        return 0
+        return (0, 0)
 
+def compute_score(verified_choice: list[int]) -> int:
+    return compute_score_and_count(verified_choice)[0]
 
-def nr_of_scoring_dices(verified_choice: list[int]) -> int:
-    match verified_choice:
-        case [1, 2, 3, 4, 5, 6]:
-            return 6  # straight uses all dice
-
-    match verified_choice:
-        case [1, 1, 1, 1, 1, 1]:
-            return 6
-        case [1, 1, 1, 1, 1, *rest]:
-            return 5 + nr_of_scoring_dices(rest)
-        case [1, 1, 1, 1, *rest]:
-            return 4 + nr_of_scoring_dices(rest)
-        case [1, 1, 1, *rest]:
-            return 3 + nr_of_scoring_dices(rest)
-        case [1, *rest]:
-            return 1 + nr_of_scoring_dices(rest)
-
-    match verified_choice:
-        case [2, 2, 2, 2, 2, 2]:
-            return 6
-        case [2, 2, 2, 2, 2, *rest]:
-            return 5 + nr_of_scoring_dices(rest)
-        case [2, 2, 2, 2, *rest]:
-            return 4 + nr_of_scoring_dices(rest)
-        case [2, 2, 2, *rest]:
-            return 3 + nr_of_scoring_dices(rest)
-
-    match verified_choice:
-        case [3, 3, 3, 3, 3, 3]:
-            return 6
-        case [3, 3, 3, 3, 3, *rest]:
-            return 5 + nr_of_scoring_dices(rest)
-        case [3, 3, 3, 3, *rest]:
-            return 4 + nr_of_scoring_dices(rest)
-        case [3, 3, 3, *rest]:
-            return 3 + nr_of_scoring_dices(rest)
-
-    match verified_choice:
-        case [4, 4, 4, 4, 4, 4]:
-            return 6
-        case [4, 4, 4, 4, 4, *rest]:
-            return 5 + nr_of_scoring_dices(rest)
-        case [4, 4, 4, 4, *rest]:
-            return 4 + nr_of_scoring_dices(rest)
-        case [4, 4, 4, *rest]:
-            return 3 + nr_of_scoring_dices(rest)
-
-    match verified_choice:
-        case [5, 5, 5, 5, 5, 5]:
-            return 6
-        case [5, 5, 5, 5, 5, *rest]:
-            return 5 + nr_of_scoring_dices(rest)
-        case [5, 5, 5, 5, *rest]:
-            return 4 + nr_of_scoring_dices(rest)
-        case [5, 5, 5, *rest]:
-            return 3 + nr_of_scoring_dices(rest)
-        case [5, *rest]:
-            return 1 + nr_of_scoring_dices(rest)
-
-    match verified_choice:
-        case [6, 6, 6, 6, 6, 6]:
-            return 6
-        case [6, 6, 6, 6, 6, *rest]:
-            return 5 + nr_of_scoring_dices(rest)
-        case [6, 6, 6, 6, *rest]:
-            return 4 + nr_of_scoring_dices(rest)
-        case [6, 6, 6, *rest]:
-            return 3 + nr_of_scoring_dices(rest)
-
-    if verified_choice:
-        return nr_of_scoring_dices(verified_choice[1:])
-    else:
-        return 0
-
+def nr_of_scoring_dices(choices: list[int]) -> int:
+    return compute_score_and_count(choices)[1]
 
 def match_the_number_of_scoring_dices(choices: list[int]) -> bool:
-    return len(choices) == nr_of_scoring_dices(choices)
+    return len(choices) == compute_score_and_count(choices)[1]
 
 
 
