@@ -13,5 +13,5 @@ class Player:
 
     @property
     def get_name(self):
-        return self.get_name
+        return self.__name
 

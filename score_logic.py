@@ -41,65 +41,90 @@ def check_if_valid_choice(rolled_set: list[int], choices: list[int]) -> bool:
             return False
     return True
 
-def compute_score(verified_choiche: list[int]) -> int:
-    ## pattern matching
-    match verified_choiche:
-        case []:
-            return 0
-        case [1, *rest]:
-            return 100 + compute_score(rest)
-        case [1,1,1, * rest]:
-            return 1000 + compute_score(rest)
-        case [1, 1, 1, 1, *rest]:
-            return 2000 + compute_score(rest)
-        case [1, 1, 1, 1, 1, *rest]:
-            return 4000 + compute_score(rest)
+def compute_score(verified_choice: list[int]) -> int:
+    match verified_choice:
+        case [1, 2, 3, 4, 5, 6]:
+            return 1000
+
+    match verified_choice:
         case [1, 1, 1, 1, 1, 1]:
             return 8000
-        case [2, 2, 2, *rest]:
-            return 200 + compute_score(rest)
-        case [2, 2, 2, 2, *rest]:
-            return 400 + compute_score(rest)
-        case [2, 2, 2, 2, 2, *rest]:
-            return 800 + compute_score(rest)
+        case [1, 1, 1, 1, 1, *rest]:
+            return 4000 + compute_score(rest)
+        case [1, 1, 1, 1, *rest]:
+            return 2000 + compute_score(rest)
+        case [1, 1, 1, *rest]:
+            return 1000 + compute_score(rest)
+        case [1, *rest]:
+            return 100 + compute_score(rest)
+
+    match verified_choice:
         case [2, 2, 2, 2, 2, 2]:
             return 1600
-        case [3, 3, 3, *rest]:
-            return 300 + compute_score(rest)
-        case [3, 3, 3, 3, *rest]:
-            return 600 + compute_score(rest)
-        case [3, 3, 3, 3, 3, *rest]:
-            return 1200 + compute_score(rest)
+        case [2, 2, 2, 2, 2, *rest]:
+            return 800 + compute_score(rest)
+        case [2, 2, 2, 2, *rest]:
+            return 400 + compute_score(rest)
+        case [2, 2, 2, *rest]:
+            return 200 + compute_score(rest)
+
+    match verified_choice:
         case [3, 3, 3, 3, 3, 3]:
             return 2400
-        case [4, 4, 4, *rest]:
-            return 400 + compute_score(rest)
-        case [4, 4, 4, 4, *rest]:
-            return 800 + compute_score(rest)
-        case [4, 4, 4, 4, 4, *rest]:
-            return 1600 + compute_score(rest)
+        case [3, 3, 3, 3, 3, *rest]:
+            return 1200 + compute_score(rest)
+        case [3, 3, 3, 3, *rest]:
+            return 600 + compute_score(rest)
+        case [3, 3, 3, *rest]:
+            return 300 + compute_score(rest)
+
+    match verified_choice:
         case [4, 4, 4, 4, 4, 4]:
             return 3200
-        case [5, *rest]:
-            return 50 + compute_score(rest)
+        case [4, 4, 4, 4, 4, *rest]:
+            return 1600 + compute_score(rest)
+        case [4, 4, 4, 4, *rest]:
+            return 800 + compute_score(rest)
+        case [4, 4, 4, *rest]:
+            return 400 + compute_score(rest)
+
+    match verified_choice:
+        case [5, 5, 5, 5, 5, 5]:
+            return 4000
+        case [5, 5, 5, 5, 5, *rest]:
+            return 2000 + compute_score(rest)
+        case [5, 5, 5, 5, *rest]:
+            return 1000 + compute_score(rest)
         case [5, 5, 5, *rest]:
             return 500 + compute_score(rest)
-        case[5, 5, 5, 5, *rest]:
-            return 1000 + compute_score(rest)
-        case[5, 5, 5, 5, 5, *rest]:
-            return 2000 + compute_score(rest)
-        case[5, 5, 5, 5, 5, 5]:
-            return 4000
-        case[6, 6, 6, *rest]:
-            return 600 + compute_score(rest)
-        case[6, 6, 6, 6, *rest]:
-            return 1200 + compute_score(rest)
-        case[6, 6, 6, 6, 6, *rest]:
-            return 2400 + compute_score(rest)
-        case[6, 6, 6, 6, 6, 6]:
+        case [5, *rest]:
+            return 50 + compute_score(rest)
+
+    match verified_choice:
+        case [6, 6, 6, 6, 6, 6]:
             return 4800
-        case[1,2,3,4,5,6]:
-            return 1000
-        case _:
-            return 0 + compute_score(verified_choiche[1:])
+        case [6, 6, 6, 6, 6, *rest]:
+            return 2400 + compute_score(rest)
+        case [6, 6, 6, 6, *rest]:
+            return 1200 + compute_score(rest)
+        case [6, 6, 6, *rest]:
+            return 600 + compute_score(rest)
+
+    if verified_choice:
+        return compute_score(verified_choice[1:])
+    else:
+        return 0
+
+if __name__  == "__main__":
+    assert compute_score([1, 1, 1, 1, 1, 1]) == 8000
+    assert compute_score([1, 1, 1, 1, 1, 2]) == 4000
+    assert compute_score([1, 5]) == 150
+    assert compute_score([1, 1, 5]) == 250
+    assert compute_score([1, 5, 5]) == 200
+    assert compute_score([2,3,4]) == 0
+    assert compute_score([4,3,4,2,2,2]) == 200
+    assert compute_score([6, 2, 5, 4, 1, 4,]) == 150
+    assert compute_score([1, 1, 2, 2, 3, 1]) == 300
+    assert compute_score([2,2,5]) == 50
+
 

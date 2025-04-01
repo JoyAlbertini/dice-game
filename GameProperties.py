@@ -37,10 +37,6 @@ class GameProperties:
     def reduce_dices(self, amount : int):
         self.__diceSet.reduce_dices(amount)
 
-    @staticmethod
-    def evaluate_round_over(set_of_rolls : list[int]):
-        return score_logic.compute_score(sorted(set_of_rolls)) != 0
-
     def update_player_score(self, score):
         self.get_current_player().increase_score(score)
 

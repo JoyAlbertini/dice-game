@@ -10,10 +10,12 @@ class GameInterface:
        self.gProperties = game_properties
 
     def print_game_status(self):
-        print(f"Current pot value is {self.gProperties.pot.get}. \n" +
+        print(f"\n------------------\n" +
+              f"Current pot value is {self.gProperties.pot.get}. \n" +
                 f"Current number of dices is {self.gProperties.get_number_of_dices()}. \n" +
-                f"Players scores are: \n" +
-                ", ".join(f"Player {player.get_name} score is {player.get_score}" for player in self.gProperties.players))
+                f"Players scores are: " + (", ".join(f"Player {player.get_name} score is {player.get_score}" for player in self.gProperties.players)) + "\n"
+             + f"------------------\n")
+
 
     @staticmethod
     def print_set_of_rolls(rolls):
@@ -31,12 +33,12 @@ class GameInterface:
 
     @staticmethod
     def print_continue_or_stop():
-        print("Do you want to roll the dices or stop? [y/n]?")
+        print("Do you want to roll the dices? [y/n]?")
 
     @staticmethod
     def ask_for_correct_input(rolled_set : list[int]) -> list[int]:
         while True:
-            choice = input()
+            choice = input().strip()
             choices : list[int] = parse_player_choices_input(choice)
             if (choices is not None and len(choices) > 0
                     and check_if_valid_choice(rolled_set, choices)
@@ -69,17 +71,20 @@ class GameInterface:
     @staticmethod
     def ask_for_players() -> list[Player]:
         players = []
+        player_names = set()
         while True:
             print("Please enter the name of the player: ")
             name = input().strip()
+            if name in player_names:
+                print("Error: Player name already exists. Please enter a different name.")
+                continue
             players.append(Player(name))
+            player_names.add(name)
             if len(players) != 1:
                 print("Do you want to add another player? [y/n]")
                 if GameInterface.ask_for_y_n() == "n":
                     break
         return players
-
-
 
 
 
