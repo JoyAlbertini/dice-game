@@ -76,17 +76,20 @@ class GameInterface:
         return True if p_continue == "y" else False
 
     @staticmethod
-    def ask_for_value(value_name : str) -> int:
+    def ask_for_value(value_name: str, limit: int = None) -> int:
         while True:
             try:
                 print(f"--Please enter the {value_name}: --")
                 value = int(input().strip())
-                if value == 0:
-                    print(f"--Error: {value_name} cannot be zero--")
+                if value <= 0:
+                    print(f"--Error: {value_name} must be a positive integer--")
+                elif limit is not None and value > limit:
+                    print(f"--Error: {value_name} cannot be greater than {limit}--")
                 else:
                     return value
             except ValueError:
                 print("--Invalid input. Please enter a valid integer--")
+
 
     @staticmethod
     def ask_for_players() -> list[Player]:
