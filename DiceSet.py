@@ -1,9 +1,11 @@
 import random
 
 class DiceSet:
-    def __init__(self, dices : int):
-        self.__init_dices = dices
-        self.__dices = dices
+
+    NR_OF_DICES = 6
+
+    def __init__(self):
+        self.__dices = DiceSet.NR_OF_DICES
 
     def get_dices(self) -> int:
         return self.__dices
@@ -12,7 +14,7 @@ class DiceSet:
         self.__dices = max(0, self.__dices - amount)
 
     def reset_dices(self):
-        self.__dices = self.__init_dices
+        self.__dices = DiceSet.NR_OF_DICES
 
     def are_dices_available(self) -> bool:
         return self.__dices > 0

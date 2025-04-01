@@ -30,22 +30,10 @@ def parse_player_choices_input(choice: str)-> None | list[int]:
     except ValueError:
         return None
 
-
-def compute_player_score(choices : str, set_of_dices: list[int]) -> (bool, int):
-    verified_choices = parse_player_choices_input(choices)
-    if verified_choices is None:
-        return False, 0
-    if not check_if_valid_choice(set_of_dices, verified_choices):
-        return False, 0
-    current_score = compute_score(verified_choices)
-    if current_score == 0:
-        return False, 0
-    return True, compute_score(verified_choices)
-
-def check_if_valid_choice(set_of_dices: list[int], choices: list[int]) -> bool:
-    if len(choices) > len(set_of_dices):
+def check_if_valid_choice(rolled_set: list[int], choices: list[int]) -> bool:
+    if len(choices) > len(rolled_set):
         return False
-    available = sorted(set_of_dices)
+    available = sorted(rolled_set)
     choices = sorted(choices)
 
     for i in range(len(choices)):
